@@ -1,0 +1,71 @@
+<html>
+<head>
+	<script type="text/javascript">
+	</script>
+	<script src="https://cdn.alloyui.com/3.0.1/aui/aui-min.js"></script>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+<link href="https://cdn.alloyui.com/3.0.1/aui-css/css/bootstrap.min.css" rel="stylesheet"></link>
+<title></title>
+</head>
+<body style="background-color: black; color: white">
+	<div class="jumbotron-fluid text-center"><h1><b>Online Compiler</b></h1></div><hr>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-6">
+				<div style="width: 50%;padding-top: 4px;padding-left : 10%;"><h3>Editor</h3></div>
+				<div style="width: 50%;padding-top: 4px;padding-left : 10%;">
+		
+				<div>
+					<div id="myeditor" style="right: 0;font-size: 20px;">
+					</div>
+				</div>
+				</div>
+				<div style="width: 50%;padding-top: 4px;padding-left : 10%;">
+					<div><h3>Custom Input: </h3><br><textarea id="cust_inp" rows="5" cols='30'></textarea></div>
+						<div style="margin-top: 30px;">
+						<button onclick="snt()">Click Me</button>
+						</div>
+				</div>
+			</div>
+			<div class="col-sm-6">
+
+				<div >
+					<div style="width: 40%;padding-top: 2px;padding-left : 6%;"><h3>Output</h3></div>
+					<div style="width: 40%;padding-top: 2px;padding-left : 6%;">
+					<textarea style="background-color: white;color: black;font-size: 20px;" rows="21" cols="56" name="python_onp" id='python_op'></textarea>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<div id='a'></div>
+	<script type="text/javascript">
+		YUI().use(
+  'aui-ace-editor',
+  function(Y) {
+    var editor = new Y.AceEditor(
+      {
+      	Document: 'python',
+        boundingBox: '#myEditor',
+        height: '600',
+        value: '#Use sys.argv[index] instead of input().',
+        mode: 'python',
+        width: '700',
+      }
+    ).render();
+
+    }
+    );
+	function snt(){
+        var editor1 = ace.edit("myeditor");
+        var code = editor1.getValue();
+        var cust_inp= document.getElementById('cust_inp').value;
+        $.post( "/h", {
+    		javascript_data: code,
+    		cust_in: cust_inp
+			},function(data){ $( "#python_op" ).empty().append( data );});
+    }
+	</script>
+</body>
+</html>
